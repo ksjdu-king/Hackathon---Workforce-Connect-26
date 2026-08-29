@@ -15,6 +15,9 @@ A full-stack accessible recruitment platform designed to empower blue-collar pro
 * **"Sahayak" Multilingual Voice Search & AI Assistant:** 
   * Integrated voice search powered by browser-native speech recognition for low-literacy users.
   * An intelligent companion chatbot that delivers contextual help, hiring guidance, and suggestions directly in the selected regional language.
+* **Star-Based Review & Reputation Mechanism:** 
+  * A transparent 5-star rating and client feedback system that helps employers and contractors identify and hire top-tier, highly skilled, elite talent with proven track records.
+  * Enables hardworking tradespeople to gain industry recognition, build a credible digital resume, and command fair wages based on verified reviews.
 * **Trust & Verification Badges:** Aadhaar and ITI document verification scoring, 100% On-Time badges, and community contractor ratings.
 * **Direct 1-Tap Connect:** One-click phone calling and pre-filled WhatsApp communication without broker commissions.
 * **Future Roadmap (Accessibility & Language Expansion):** Planned support for additional regional languages ( Malayalam, Odia, Gujarati, Punjabi) alongside advanced, dialect-aware voice recognition models.
