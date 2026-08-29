@@ -3,8 +3,8 @@
 A full-stack accessible recruitment platform designed to empower blue-collar professionals with verified digital identities while enabling employers to discover, verify, and hire local talent.
 
 ## 🚀 Live Demo & Repository
-- **Live Deployment:** [Your Deployment URL]
-- **GitHub Repository:** [Your GitHub Repo URL]
+- **Live Deployment:** [https://ksjdu-king.github.io/Hackathon---Workforce-Connect-26/]
+- **GitHub Repository:** [https://github.com/ksjdu-king/Hackathon---Workforce-Connect-26.git]
 
 ---
 
