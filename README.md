@@ -22,3 +22,14 @@ A full-stack accessible recruitment platform designed to empower blue-collar pro
 - **Accessibility & Voice:** Browser Native Web Speech API (`SpeechRecognition` & `SpeechSynthesis`)
 - **State & Data Management:** Modular JavaScript (i18n Localization Engine & Dynamic In-Memory Store)
 - **Deployment:** GitHub Pages / Vercel
+
+---
+
+## 🤝 Acknowledgements & Tooling Credits
+
+This project was built during the **Workforce Connect '26 Hackathon** with the help of the following development tools and AI collaborators:
+
+- **AI Architect & Logic Assistant:** [Gemini](https://deepmind.google/technologies/gemini/) – Guided the system architecture, 100% multilingual i18n logic, hyper-local search mechanics, and documentation.
+- **AI Coding Agent:** [Antigravity](https://marketplace.visualstudio.com/) – Assisted with direct code generation, component scaffolding, and rapid iteration.
+- **Development Environment:** [Visual Studio Code](https://code.visualstudio.com/) – Code editing, live preview testing, and terminal workflow management.
+- **Icons & Styling:** [Font Awesome 6](https://fontawesome.com/) & [Tailwind CSS](https://tailwindcss.com/)
