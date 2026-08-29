@@ -17,7 +17,7 @@ A full-stack accessible recruitment platform designed to empower blue-collar pro
   * An intelligent companion chatbot that delivers contextual help, hiring guidance, and suggestions directly in the selected regional language.
 * **Trust & Verification Badges:** Aadhaar and ITI document verification scoring, 100% On-Time badges, and community contractor ratings.
 * **Direct 1-Tap Connect:** One-click phone calling and pre-filled WhatsApp communication without broker commissions.
-* **Future Roadmap (Accessibility & Language Expansion):** Planned support for additional regional languages (Kannada, Malayalam, Odia, Gujarati, Punjabi) alongside advanced, dialect-aware voice recognition models.
+* **Future Roadmap (Accessibility & Language Expansion):** Planned support for additional regional languages ( Malayalam, Odia, Gujarati, Punjabi) alongside advanced, dialect-aware voice recognition models.
 
 ---
 
