@@ -9,11 +9,15 @@ A full-stack accessible recruitment platform designed to empower blue-collar pro
 ---
 
 ## 🌟 Key Features
-- **Hyper-Local Discovery:** 3-tier filtering (State ➔ District/City ➔ Village/Mandal) matching workers and contractors within immediate vicinity.
-- **100% Multilingual Engine:** Instant localization across major Indian languages (Hindi, Telugu, Tamil, Bengali, Marathi, Kannada, English).
-- **"Sahayak" Voice & Text AI Assistant:** Integrated Web Speech API and SpeechSynthesis for audio-first guidance for low-literacy users.
-- **Trust & Verification Badges:** Aadhaar/ITI document verification scoring, 100% On-Time badges, and real contractor rating system.
-- **Instant Communication:** 1-tap direct calling and pre-filled WhatsApp contractor connectivity.
+
+* **Hyper-Local Discovery:** 3-tier filtering (State ➔ District/City ➔ Village/Mandal) matching workers and contractors within their immediate vicinity.
+* **6+ Multilingual Localization:** Instant mother-tongue switching across 6 major Indian languages (English, Hindi, Telugu, Tamil, Bengali, and Marathi) so blue-collar workers can effortlessly navigate and interact with the platform.
+* **"Sahayak" Multilingual Voice Search & AI Assistant:** 
+  * Integrated voice search powered by browser-native speech recognition for low-literacy users.
+  * An intelligent companion chatbot that delivers contextual help, hiring guidance, and suggestions directly in the selected regional language.
+* **Trust & Verification Badges:** Aadhaar and ITI document verification scoring, 100% On-Time badges, and community contractor ratings.
+* **Direct 1-Tap Connect:** One-click phone calling and pre-filled WhatsApp communication without broker commissions.
+* **Future Roadmap (Accessibility & Language Expansion):** Planned support for additional regional languages (Kannada, Malayalam, Odia, Gujarati, Punjabi) alongside advanced, dialect-aware voice recognition models.
 
 ---
 
