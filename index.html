@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workforce Connect '26 - Blue-Collar Trust & Hyper-Local Hiring</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+    .pulse-btn { animation: pulse-ring 2s infinite; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+  <!-- NAVBAR -->
+  <header class="bg-blue-800 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-amber-400 text-blue-900 p-2 rounded-xl text-xl font-bold">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-wide">Workforce Connect <span class="text-amber-400 text-xs px-2 py-0.5 bg-blue-900 rounded-full">'26</span></h1>
+          <p class="text-xs text-blue-200" data-i18n="tagline">India's Trusted Blue-Collar Network</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- Language Switcher -->
+        <div class="flex items-center bg-blue-900/80 rounded-lg px-2 py-1 text-sm border border-blue-700">
+          <i class="fa-solid fa-language text-amber-400 mr-2"></i>
+          <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-transparent text-white outline-none cursor-pointer">
+            <option value="en" class="text-slate-800">English</option>
+            <option value="hi" class="text-slate-800">हिन्दी (Hindi)</option>
+            <option value="te" class="text-slate-800">తెలుగు (Telugu)</option>
+            <option value="ta" class="text-slate-800">தமிழ் (Tamil)</option>
+            <option value="bn" class="text-slate-800">বাংলা (Bengali)</option>
+            <option value="mr" class="text-slate-800">मराठी (Marathi)</option>
+            <option value="kn" class="text-slate-800">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+
+        <button onclick="openModal('registerModal')" class="bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-1.5 rounded-lg font-bold text-sm transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-user-plus"></i> <span data-i18n="joinBtn">Register</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO & VOICE SEARCH -->
+  <section class="bg-gradient-to-b from-blue-800 to-blue-700 text-white pt-8 pb-10 px-4 text-center">
+    <div class="max-w-3xl mx-auto space-y-4">
+      <h2 class="text-3xl sm:text-4xl font-extrabold" data-i18n="heroTitle">Verified Blue-Collar Jobs & Quality Workers</h2>
+      <p class="text-blue-100 text-sm sm:text-base" data-i18n="heroSubtitle">Direct calls, verified skill badges, state-to-village hyper-local matching.</p>
+
+      <!-- Voice & Text Search Bar -->
+      <div class="relative max-w-xl mx-auto mt-4">
+        <input type="text" id="searchInput" oninput="filterCards()" placeholder="Search trade or skill (e.g., Electrician, Driver, Plumber)..." 
+               class="w-full pl-12 pr-28 py-3.5 rounded-2xl text-slate-900 outline-none text-base font-medium shadow-lg border-2 border-white focus:border-amber-400">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-slate-400 text-lg"></i>
+        
+        <button onclick="startVoiceSearch()" id="voiceSearchBtn" title="Speak to search"
+                class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-2 rounded-xl flex items-center gap-2 font-medium text-sm transition">
+          <i class="fa-solid fa-microphone text-amber-300"></i> <span data-i18n="voiceBtn">Voice</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HYPER-LOCAL LOCATION FILTERS BAR -->
+  <section class="max-w-7xl mx-auto px-4 -mt-5 z-20 relative w-full">
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-location-dot text-red-500"></i>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700" data-i18n="filterLocationTitle">Filter by Hyper-Local Area (State / City / Village)</h3>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- State Selector -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-500 mb-1" data-i18n="stateLabel">State</label>
+          <select id="stateFilter" onchange="onStateChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:border-blue-600">
+            <option value="All">All States (All India)</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="West Bengal">West Bengal</option>
+          </select>
+        </div>
+
+        <!-- City/District Selector -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-500 mb-1" data-i18n="cityLabel">District / City</label>
+          <select id="cityFilter" onchange="onCityChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:border-blue-600">
+            <option value="All">All Cities / Districts</option>
+          </select>
+        </div>
+
+        <!-- Village / Mandal Selector -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-500 mb-1" data-i18n="villageLabel">Village / Mandal / Town</label>
+          <select id="villageFilter" onchange="filterCards()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:border-blue-600">
+            <option value="All">All Villages / Localities</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN DASHBOARD -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div class="flex items-center space-x-2 bg-slate-200 p-1 rounded-xl">
+        <button onclick="switchTab('workers')" id="tabWorkers" class="px-5 py-2 rounded-lg font-bold text-sm bg-white text-blue-900 shadow">
+          <i class="fa-solid fa-users mr-1.5"></i> <span data-i18n="tabWorkers">Workers for Hire</span>
+        </button>
+        <button onclick="switchTab('jobs')" id="tabJobs" class="px-5 py-2 rounded-lg font-bold text-sm text-slate-600 hover:text-blue-900">
+          <i class="fa-solid fa-briefcase mr-1.5"></i> <span data-i18n="tabJobs">Active Job Openings</span>
+        </button>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <label class="flex items-center cursor-pointer select-none text-sm font-semibold text-slate-700">
+          <input type="checkbox" id="verifiedOnly" onchange="filterCards()" class="w-4 h-4 text-blue-600 rounded mr-2">
+          <i class="fa-solid fa-shield-check text-green-600 mr-1"></i> <span data-i18n="verifiedFilter">Verified Only</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- WORKERS GRID -->
+    <div id="workersView">
+      <div id="workersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- JOBS GRID -->
+    <div id="jobsView" class="hidden">
+      <div id="jobsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </main>
+
+  <!-- REVIEWS & RATINGS MODAL -->
+  <div id="reviewModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div>
+          <h3 id="modalReviewName" class="font-bold text-lg text-slate-900">Profile Reviews</h3>
+          <p id="modalReviewRole" class="text-xs text-blue-700 font-semibold"></p>
+        </div>
+        <button onclick="closeModal('reviewModal')" class="text-slate-400 hover:text-slate-700 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="modalReviewsList" class="space-y-3"></div>
+
+      <div class="border-t pt-4 space-y-2">
+        <h4 class="text-xs font-bold text-slate-800" data-i18n="leaveReviewTitle">Leave a Rating & Feedback</h4>
+        <div class="flex items-center space-x-1 text-amber-400 text-lg cursor-pointer" id="starRatingInput">
+          <i class="fa-solid fa-star" onclick="setRating(1)"></i>
+          <i class="fa-solid fa-star" onclick="setRating(2)"></i>
+          <i class="fa-solid fa-star" onclick="setRating(3)"></i>
+          <i class="fa-solid fa-star" onclick="setRating(4)"></i>
+          <i class="fa-solid fa-star" onclick="setRating(5)"></i>
+        </div>
+        <textarea id="reviewComment" rows="2" class="w-full border rounded-xl p-2 text-xs outline-none focus:border-blue-600" placeholder="Describe quality of work, punctuality, and behavior..."></textarea>
+        <button onclick="submitReview()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl text-xs transition" data-i18n="postReviewBtn">Post Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION MODAL WITH STATE / CITY / VILLAGE INPUTS -->
+  <div id="registerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex space-x-3">
+          <button onclick="switchRegRole('worker')" id="regWorkerBtn" class="font-bold pb-1 border-b-2 border-blue-600 text-blue-900" data-i18n="regWorkerTab">Worker Registration</button>
+          <button onclick="switchRegRole('employer')" id="regEmployerBtn" class="font-bold pb-1 text-slate-500 hover:text-blue-900" data-i18n="regEmployerTab">Employer Registration</button>
+        </div>
+        <button onclick="closeModal('registerModal')" class="text-slate-400 hover:text-slate-700 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 p-3 rounded-xl flex items-start gap-3">
+        <i class="fa-solid fa-wand-magic-sparkles text-blue-600 text-lg mt-0.5"></i>
+        <div>
+          <p class="text-xs font-bold text-blue-900" data-i18n="aiTipTitle">AI Form Assistant</p>
+          <p id="aiModalTip" class="text-xs text-blue-800" data-i18n="aiTipDefault">Providing your exact Village / Mandal ensures contractors within 5 km can reach you immediately.</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleRegister(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="fullNameLabel">Full Name</label>
+          <input type="text" id="regName" required class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600" placeholder="e.g., Ramesh Kumar">
+        </div>
+
+        <!-- 3-Tier Location Setup for Profiles -->
+        <div class="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1" data-i18n="stateLabel">State</label>
+            <select id="regState" onchange="updateRegCities()" class="w-full border rounded-lg p-2 text-xs bg-white outline-none focus:border-blue-600">
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="West Bengal">West Bengal</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1" data-i18n="cityLabel">City / District</label>
+            <input type="text" id="regCity" required class="w-full border rounded-lg p-2 text-xs bg-white outline-none focus:border-blue-600" placeholder="e.g., West Godavari">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1" data-i18n="villageLabel">Village / Mandal</label>
+            <input type="text" id="regVillage" required class="w-full border rounded-lg p-2 text-xs bg-white outline-none focus:border-blue-600" placeholder="e.g., Pentapadu">
+          </div>
+        </div>
+
+        <div id="workerSpecificFields" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="tradeLabel">Trade / Skill</label>
+              <select id="regTrade" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600">
+                <option value="Electrician">Electrician ⚡</option>
+                <option value="Plumber">Plumber 🔧</option>
+                <option value="Driver">Driver 🚗</option>
+                <option value="Welder">Welder ⚙️</option>
+                <option value="Carpenter">Carpenter 🪚</option>
+                <option value="Mason">Mason 🧱</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="wageLabel">Daily Wage (₹)</label>
+              <input type="number" id="regWage" placeholder="e.g., 850" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="docWorkerLabel">Aadhaar / ITI Certificate (Identity Verification)</label>
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:bg-slate-50 cursor-pointer">
+              <i class="fa-solid fa-cloud-arrow-up text-blue-600 text-2xl mb-1"></i>
+              <p class="text-xs text-slate-600 font-medium" data-i18n="uploadHint">Click or drag Aadhaar / Certificate photo to verify</p>
+              <input type="file" id="workerDoc" onchange="simulateVerification()" class="hidden">
+            </div>
+            <p id="verifyBadge" class="text-xs text-green-700 font-bold mt-1.5 hidden"><i class="fa-solid fa-circle-check"></i> Document Verified: Trust Score 98%</p>
+          </div>
+        </div>
+
+        <div id="employerSpecificFields" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="companyLabel">Company / Contractor Name</label>
+            <input type="text" id="regCompany" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600" placeholder="e.g., Apex Infra Projects">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="gstLabel">GSTIN / Contractor License</label>
+            <input type="text" id="regGst" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600" placeholder="e.g., 36AAAAA0000A1Z5">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="phoneLabel">Phone / WhatsApp Number</label>
+          <input type="tel" id="regPhone" required class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-blue-600" placeholder="10-digit mobile number">
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm shadow transition" data-i18n="submitRegBtn">Submit Registration</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING AI ASSISTANT ("SAHAYAK") -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="toggleChat()" class="pulse-btn bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl transition border-2 border-white">
+      <i class="fa-solid fa-robot text-amber-300"></i>
+    </button>
+
+    <div id="chatBox" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[480px]">
+      <div class="bg-blue-800 text-white p-3.5 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-robot text-amber-400"></i>
+          <div>
+            <h3 class="text-sm font-bold">Sahayak (सहायक)</h3>
+            <p class="text-[10px] text-blue-200" data-i18n="aiOnline">Voice & Hyper-Local AI Guide</p>
+          </div>
+        </div>
+        <button onclick="toggleChat()" class="text-blue-200 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="chatMessages" class="flex-1 p-3.5 overflow-y-auto space-y-3 bg-slate-50 text-xs">
+        <div class="bg-blue-100 text-blue-950 p-2.5 rounded-xl rounded-tl-none border border-blue-200 space-y-1">
+          <p id="botWelcome" data-i18n="botHello">Namaste! I am Sahayak. How can I help you find work or verified workers in your state or village today?</p>
+          <button onclick="speakText(document.getElementById('botWelcome').innerText)" class="text-blue-700 font-bold text-[11px] flex items-center gap-1 hover:underline">
+            <i class="fa-solid fa-volume-high"></i> <span data-i18n="listenBtn">Listen</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-2 bg-white border-t border-slate-100 flex flex-wrap gap-1.5 text-[11px]">
+        <button onclick="askBot('findJobs')" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg text-slate-700" data-i18n="chipFindJobs">⚡ Village Jobs</button>
+        <button onclick="askBot('wages')" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg text-slate-700" data-i18n="chipWages">💰 Wage Rates</button>
+        <button onclick="askBot('verify')" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg text-slate-700" data-i18n="chipVerify">🛡️ Badges</button>
+      </div>
+
+      <div class="p-2.5 bg-white border-t flex items-center gap-2">
+        <input type="text" id="chatInput" placeholder="Ask in any language..." onkeypress="if(event.key==='Enter') sendUserMsg()" class="flex-1 border rounded-xl px-3 py-2 text-xs outline-none focus:border-blue-600">
+        <button onclick="sendUserMsg()" class="bg-blue-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-blue-700"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // LOCATION HIERARCHY DATA (State -> Districts -> Villages/Mandals)
+    const locationData = {
+      "Andhra Pradesh": {
+        "West Godavari": ["Pentapadu", "Tadepalligudem", "Tanuku", "Bhimavaram"],
+        "Krishna": ["Gannavaram", "Vijayawada Rural", "Vuyyuru", "Gudivada"],
+        "Visakhapatnam": ["Anakapalle", "Gajuwaka", "Bheemunipatnam", "Pendurthi"]
+      },
+      "Telangana": {
+        "Hyderabad": ["Gachibowli", "Kukatpally", "Secunderabad", "LB Nagar"],
+        "Rangareddy": ["Shamshabad", "Rajendranagar", "Ibrahimpatnam", "Maheshwaram"],
+        "Warangal": ["Hanamkonda", "Kazipet", "Wardhannapet", "Narsampet"]
+      },
+      "Maharashtra": {
+        "Mumbai Suburban": ["Andheri", "Borivali", "Kurla", "Bandra"],
+        "Pune": ["Haveli", "Baramati", "Pimpri", "Khed"],
+        "Nagpur": ["Kamptee", "Hingna", "Katol", "Saoner"]
+      },
+      "Uttar Pradesh": {
+        "Lucknow": ["Bakshi Ka Talab", "Sarojini Nagar", "Malihabad", "Mohanlalganj"],
+        "Varanasi": ["Pindra", "Rohaniya", "Sewapuri", "Kashi Vidyapeeth"],
+        "Kanpur Nagar": ["Bilhaur", "Ghatampur", "Kalyanpur", "Sarsaul"]
+      },
+      "West Bengal": {
+        "Kolkata": ["Alipore", "Dum Dum", "Behala", "Salt Lake"],
+        "Howrah": ["Bally", "Uluberia", "Amta", "Domjur"],
+        "North 24 Parganas": ["Barasat", "Basirhat", "Bangaon", "Barrackpore"]
+      }
+    };
+
+    const translations = {
+      en: {
+        tagline: "India's Trusted Blue-Collar Network",
+        heroTitle: "Verified Blue-Collar Jobs & Quality Workers",
+        heroSubtitle: "Direct calls, verified skill badges, state-to-village hyper-local matching.",
+        filterLocationTitle: "Filter by Hyper-Local Area (State / City / Village)",
+        stateLabel: "State",
+        cityLabel: "District / City",
+        villageLabel: "Village / Mandal / Town",
+        voiceBtn: "Voice",
+        joinBtn: "Register",
+        tabWorkers: "Workers for Hire",
+        tabJobs: "Active Job Openings",
+        verifiedFilter: "Verified Only",
+        callBtn: "Call",
+        whatsappBtn: "WhatsApp",
+        reviewsBtn: "Reviews",
+        applyBtn: "1-Tap Apply",
+        leaveReviewTitle: "Leave a Rating & Feedback",
+        postReviewBtn: "Post Review",
+        regWorkerTab: "Worker Registration",
+        regEmployerTab: "Employer Registration",
+        aiTipTitle: "AI Form Assistant",
+        aiTipDefault: "Providing your exact Village / Mandal ensures contractors within 5 km can reach you immediately.",
+        fullNameLabel: "Full Name",
+        tradeLabel: "Trade / Skill",
+        wageLabel: "Daily Wage (₹)",
+        docWorkerLabel: "Aadhaar / ITI Certificate",
+        uploadHint: "Click or drag document photo to verify",
+        companyLabel: "Company / Contractor Name",
+        gstLabel: "GSTIN / Contractor License",
+        phoneLabel: "Phone / WhatsApp Number",
+        submitRegBtn: "Submit Registration",
+        aiOnline: "Voice & Hyper-Local AI Guide",
+        botHello: "Namaste! I am Sahayak. How can I help you find work or verified workers in your state or village today?",
+        listenBtn: "Listen",
+        chipFindJobs: "⚡ Village Jobs",
+        chipWages: "💰 Wage Rates",
+        chipVerify: "🛡️ Badges",
+        speakLocale: "en-IN",
+        botAnswers: {
+          findJobs: "We have active verified openings across Andhra Pradesh, Telangana, Maharashtra and UP. Filter by your village above to see direct opportunities.",
+          wages: "Standard daily rates: Electricians ₹850–₹1000/day, Plumbers ₹750–₹900/day, Drivers ₹950–₹1200/day.",
+          verify: "Upload your Aadhaar to earn the '100% On-Time' and 'Verified Location' badges for more direct job calls!",
+          default: "I understand your query. Let me connect you with the nearest contractor in your village."
+        }
+      },
+      hi: {
+        tagline: "भारत का विश्वसनीय ब्लू-कॉलर नेटवर्क",
+        heroTitle: "सत्यापित कामगार एवं सीधी नौकरी",
+        heroSubtitle: "सीधा फोन, क्वालिटी बैज और राज्य से गांव तक सटीक भर्ती।",
+        filterLocationTitle: "राज्य, जिला एवं गांव के अनुसार खोजें",
+        stateLabel: "राज्य",
+        cityLabel: "जिला / शहर",
+        villageLabel: "गांव / मंडल / कस्बा",
+        voiceBtn: "बोलें",
+        joinBtn: "पंजीकरण",
+        tabWorkers: "कामगार खोजें",
+        tabJobs: "उपलब्ध नौकरियां",
+        verifiedFilter: "केवल सत्यापित",
+        callBtn: "कॉल करें",
+        whatsappBtn: "व्हाट्सएप",
+        reviewsBtn: "रेटिंग व समीक्षा",
+        applyBtn: "सीधे आवेदन करें",
+        leaveReviewTitle: "रेटिंग और समीक्षा दें",
+        postReviewBtn: "समीक्षा सबमिट करें",
+        regWorkerTab: "कामगार पंजीकरण",
+        regEmployerTab: "नियोक्ता पंजीकरण",
+        aiTipTitle: "एआई सहायक सलाह",
+        aiTipDefault: "सटीक गांव का नाम डालने से 5 किमी के भीतर के ठेकेदार आपसे तुरंत संपर्क कर सकेंगे।",
+        fullNameLabel: "पूरा नाम",
+        tradeLabel: "कार्य / हुनर",
+        wageLabel: "दैनिक मजदूरी (₹)",
+        docWorkerLabel: "आधार / आईटीआई प्रमाणपत्र",
+        uploadHint: "सत्यापन के लिए फोटो अपलोड करें",
+        companyLabel: "कंपनी / ठेकेदार का नाम",
+        gstLabel: "जीएसटी / ठेकेदार लाइसेंस",
+        phoneLabel: "फोन / व्हाट्सएप नंबर",
+        submitRegBtn: "पंजीकरण जमा करें",
+        aiOnline: "वॉइस और गांव-शहर गाइड",
+        botHello: "नमस्ते! मैं सहायक हूँ। मैं आपके राज्य या गांव में काम ढूंढने में कैसे मदद करूँ?",
+        listenBtn: "सुनें",
+        chipFindJobs: "⚡ गांव में काम",
+        chipWages: "💰 मजदूरी दर",
+        chipVerify: "🛡️ बैज सत्यापन",
+        speakLocale: "hi-IN",
+        botAnswers: {
+          findJobs: "आपके जिले और गांव के आसपास सत्यापित नौकरियां उपलब्ध हैं। ऊपर दिए गए गांव फिल्टर का उपयोग करें।",
+          wages: "दैनिक मजदूरी दर: इलेक्ट्रीशियन ₹850-₹1000, प्लंबर ₹750-₹900, ड्राइवर ₹950-₹1200।",
+          verify: "आधार अपलोड करके '100% ऑन-टाइम' और 'सत्यापित गांव' बैज प्राप्त करें।",
+          default: "मैंने आपकी बात समझ ली है। मैं आपके गांव के पास सही काम ढूंढ रहा हूँ।"
+        }
+      },
+      te: {
+        tagline: "భారతదేశ విశ్వసనీయ బ్లూ-కాలర్ నెట్‌వర్క్",
+        heroTitle: "ధృవీకరించబడిన నైపుణ్యం & నాణ్యమైన కార్మికులు",
+        heroSubtitle: "ప్రత్యక్ష కాల్స్, నాణ్యతా బ్యాడ్జ్‌లు, రాష్ట్రం నుండి గ్రామం వరకు రిక్రూట్‌మెంట్.",
+        filterLocationTitle: "రాష్ట్రం, జిల్లా మరియు గ్రామం వారీగా వెతకండి",
+        stateLabel: "రాష్ట్రం",
+        cityLabel: "జిల్లా / నగరం",
+        villageLabel: "గ్రామం / మండలం",
+        voiceBtn: "మాట్లాడండి",
+        joinBtn: "నమోదు",
+        tabWorkers: "కార్మికులు",
+        tabJobs: "ఉద్యోగ అవకాశాలు",
+        verifiedFilter: "ధృవీకరించబడినవి మాత్రమే",
+        callBtn: "కాల్",
+        whatsappBtn: "వాట్సాప్",
+        reviewsBtn: "సమీక్షలు",
+        applyBtn: "దరఖాస్తు",
+        leaveReviewTitle: "రేటింగ్ & సమీక్ష ఇవ్వండి",
+        postReviewBtn: "సమీక్ష సమర్పించండి",
+        regWorkerTab: "కార్మికుల నమోదు",
+        regEmployerTab: "యజమాని నమోదు",
+        aiTipTitle: "AI సహాయక్ సలహా",
+        aiTipDefault: "మీ గ్రామం లేదా మండలం నమోదు చేయడం వల్ల 5 కి.మీ పరిధిలోని కాంట్రాక్టర్లు త్వరగా కలుస్తారు.",
+        fullNameLabel: "పూర్తి పేరు",
+        tradeLabel: "వృత్తి / నైపుణ్యం",
+        wageLabel: "రోజువారీ వేతనం (₹)",
+        docWorkerLabel: "ఆధార్ / నైపుణ్య సర్టిఫికేట్",
+        uploadHint: "ఫోటో అప్‌లోడ్ చేయడానికి క్లిక్ చేయండి",
+        companyLabel: "కంపెనీ / కాంట్రాక్టర్ పేరు",
+        gstLabel: "GSTIN / లైసెన్స్",
+        phoneLabel: "ఫోన్ / వాట్సాప్ నంబర్",
+        submitRegBtn: "సమర్పించండి",
+        aiOnline: "వాయిస్ & గ్రామ స్థాయి గైడ్",
+        botHello: "నమస్కారం! నేను సహాయక్. మీ గ్రామం లేదా జిల్లాలో పని లేదా కార్మికులను కనుగొనడంలో ఎలా సహాయపడాలి?",
+        listenBtn: "వినండి",
+        chipFindJobs: "⚡ గ్రామ పనులు",
+        chipWages: "💰 వేతన వివరాలు",
+        chipVerify: "🛡️ బ్యాడ్జ్‌లు",
+        speakLocale: "te-IN",
+        botAnswers: {
+          findJobs: "మీ గ్రామం మరియు జిల్లా పరిధిలో ఎలక్ట్రీషియన్, ప్లంబర్ ఉద్యోగాలు అందుబాటులో ఉన్నాయి.",
+          wages: "రోజువారీ వేతనం: ఎలక్ట్రీషియన్ ₹850-₹1000, ప్లంబర్ ₹750-₹900, డ్రైవర్ ₹950-₹1200.",
+          verify: "ఆధార్ అప్‌లోడ్ చేసి 'వెరిఫైడ్ గ్రామం' మరియు 'ఆన్-టైమ్' బ్యాడ్జ్ పొందండి.",
+          default: "నేను మీ వివరాలను గమనించాను. మీ మండలానికి దగ్గరగా ఉన్న కాంట్రాక్టర్ వివరాలను అందిస్తాను."
+        }
+      },
+      ta: {
+        tagline: "இந்தியாவின் முன்னணி தொழிலாளர் தளம்",
+        heroTitle: "சரிபார்க்கப்பட்ட தொழிலாளர்கள் மற்றும் வேலைகள்",
+        heroSubtitle: "நேரடி அழைப்பு, தரமான பேட்ஜ்கள், கிராம அளவிலான வேலைவாய்ப்பு.",
+        filterLocationTitle: "மாநிலம், மாவட்டம் மற்றும் கிராம வாரியாக வடிகட்டவும்",
+        stateLabel: "மாநிலம்",
+        cityLabel: "மாவட்டம் / நகரம்",
+        villageLabel: "கிராமம் / பகுதி",
+        voiceBtn: "பேசவும்",
+        joinBtn: "பதிவு செய்க",
+        tabWorkers: "தொழிலாளர்கள்",
+        tabJobs: "வேலை வாய்ப்புகள்",
+        verifiedFilter: "சரிபார்க்கப்பட்டவை மட்டும்",
+        callBtn: "அழைக்க",
+        whatsappBtn: "வாட்ஸ்அப்",
+        reviewsBtn: "மதிப்பீடுகள்",
+        applyBtn: "விண்ணப்பிக்க",
+        leaveReviewTitle: "மதிப்பீடு தெரிவிக்கவும்",
+        postReviewBtn: "சமர்ப்பிக்கவும்",
+        regWorkerTab: "தொழிலாளி பதிவு",
+        regEmployerTab: "முதலாளி பதிவு",
+        aiTipTitle: "AI வழிகாட்டி",
+        aiTipDefault: "உங்கள் கிராமத்தை சரியாகக் குறிப்பிட்டால் அருகில் உள்ளவர்கள் உடனே அழைப்பார்கள்.",
+        fullNameLabel: "முழு பெயர்",
+        tradeLabel: "தொழில்",
+        wageLabel: "தினசரி கூலி (₹)",
+        docWorkerLabel: "ஆதார் அட்டை",
+        uploadHint: "ஆவணத்தை பதிவேற்றவும்",
+        companyLabel: "நிறுவனத்தின் பெயர்",
+        gstLabel: "GST எண்",
+        phoneLabel: "தொலைபேசி எண்",
+        submitRegBtn: "சமர்ப்பிக்கவும்",
+        aiOnline: "குரல் வழிகாட்டி",
+        botHello: "வணக்கம்! உங்கள் கிராமத்தில் வேலை தேட நான் எவ்வாறு உதவ வேண்டும்?",
+        listenBtn: "கேட்க",
+        chipFindJobs: "⚡ கிராம வேலைகள்",
+        chipWages: "💰 கூலி விவரம்",
+        chipVerify: "🛡️ பேட்ஜ்கள்",
+        speakLocale: "ta-IN",
+        botAnswers: {
+          findJobs: "உங்கள் கிராம மற்றும் மாவட்ட பகுதியில் வேலைகள் உள்ளன.",
+          wages: "தினசரி கூலி: எலக்ட்ரீசியன் ₹850, பிளம்பர் ₹750, ஓட்டுநர் ₹1000.",
+          verify: "ஆதார் பதிவேற்றம் செய்து சரிபார்க்கப்பட்ட பேட்ஜ் பெறவும்.",
+          default: "உங்கள் தேவையை நான் புரிந்து கொண்டேன்."
+        }
+      },
+      bn: {
+        tagline: "ভারতের নির্ভরযোগ্য কর্মী নেটওয়ার্ক",
+        heroTitle: "যাচাইকৃত কর্মী এবং কাজের সুযোগ",
+        heroSubtitle: "সরাসরি যোগাযোগ, কোয়ালিটি ব্যাজ ও গ্রামভিত্তিক সঠিক নিয়োগ।",
+        filterLocationTitle: "রাজ্য, জেলা এবং গ্রাম অনুযায়ী খুঁজুন",
+        stateLabel: "রাজ্য",
+        cityLabel: "জেলা / শহর",
+        villageLabel: "গ্রাম / এলাকা",
+        voiceBtn: "ভয়েস",
+        joinBtn: "নিবন্ধন",
+        tabWorkers: "কর্মী খুঁজুন",
+        tabJobs: "কাজের সুযোগ",
+        verifiedFilter: "কেবল যাচাইকৃত",
+        callBtn: "কল",
+        whatsappBtn: "হোয়াটসঅ্যাপ",
+        reviewsBtn: "রিভিউ",
+        applyBtn: "আবেদন করুন",
+        leaveReviewTitle: "রেটিং দিন",
+        postReviewBtn: "জমা দিন",
+        regWorkerTab: "কর্মী নিবন্ধন",
+        regEmployerTab: "নিয়োগকারী নিবন্ধন",
+        aiTipTitle: "এআই নির্দেশিকা",
+        aiTipDefault: "গ্রামের সঠিক তথ্য দিলে কাছের নিয়োগকারীরা দ্রুত যোগাযোগ করতে পারবেন।",
+        fullNameLabel: "পুরো নাম",
+        tradeLabel: "পেশা / দক্ষতা",
+        wageLabel: "দৈনিক মজুরি (₹)",
+        docWorkerLabel: "আধার / সার্টিফিকেট",
+        uploadHint: "নথি আপলোড করুন",
+        companyLabel: "কোম্পানির নাম",
+        gstLabel: "জিএসটি নম্বর",
+        phoneLabel: "ফোন নম্বর",
+        submitRegBtn: "জমা দিন",
+        aiOnline: "ভয়েস গাইড",
+        botHello: "নমস্কার! আমি সহায়ক। আপনার এলাকার কাজ খুঁজতে কীভাবে সাহায্য করব?",
+        listenBtn: "শুনুন",
+        chipFindJobs: "⚡ গ্রামের কাজ",
+        chipWages: "💰 মজুরি হার",
+        chipVerify: "🛡️ ব্যাজ",
+        speakLocale: "bn-IN",
+        botAnswers: {
+          findJobs: "আপনার জেলা ও গ্রামে কাজের সুযোগ রয়েছে।",
+          wages: "দৈনিক মজুরি: ইলেকট্রিশিয়ান ₹৮৫০-₹১০০০, প্লাম্বার ₹৭৫০-₹৯০০।",
+          verify: "আধার কার্ড আপলোড করে ভেরিফায়েড ব্যাজ নিন।",
+          default: "আমি আপনার অনুরোধ গ্রহণ করেছি।"
+        }
+      },
+      mr: {
+        tagline: "भारताचे विश्वासार्ह कामगार नेटवर्क",
+        heroTitle: "सत्यापित कामगार आणि थेट रोजगार",
+        heroSubtitle: "थेट संपर्क, दर्जेदार बॅज आणि गावागावातून थेट भरती.",
+        filterLocationTitle: "राज्य, जिल्हा आणि गावानुसार शोधा",
+        stateLabel: "राज्य",
+        cityLabel: "जिल्हा / शहर",
+        villageLabel: "गाव / परिसर",
+        voiceBtn: "बोला",
+        joinBtn: "नोंदणी",
+        tabWorkers: "कामगार शोधा",
+        tabJobs: "उपलब्ध नोकऱ्या",
+        verifiedFilter: "फक्त सत्यापित",
+        callBtn: "कॉल",
+        whatsappBtn: "व्हॉट्सॲप",
+        reviewsBtn: "समीक्षा",
+        applyBtn: "अर्ज करा",
+        leaveReviewTitle: "रेटिंग द्या",
+        postReviewBtn: "सबमिट करा",
+        regWorkerTab: "कामगार नोंदणी",
+        regEmployerTab: "नियोक्ता नोंदणी",
+        aiTipTitle: "एआय सहाय्यक",
+        aiTipDefault: "गावाचे नाव अचूक दिल्यास ५ किमीच्या परिसरातील काम लवकर मिळेल.",
+        fullNameLabel: "पूर्ण नाव",
+        tradeLabel: "व्यवसाय",
+        wageLabel: "दैनिक मजुरी (₹)",
+        docWorkerLabel: "आधार / प्रमाणपत्र",
+        uploadHint: "दस्तऐवज अपलोड करा",
+        companyLabel: "कंपनीचे नाव",
+        gstLabel: "जीएसटी क्रमांक",
+        phoneLabel: "फोन नंबर",
+        submitRegBtn: "नोंदणी करा",
+        aiOnline: "व्हॉइस गाइड",
+        botHello: "नमस्कार! मी सहायक आहे. आपल्या गावातील काम शोधण्यात मी कशी मदत करू?",
+        listenBtn: "ऐका",
+        chipFindJobs: "⚡ गावातील कामे",
+        chipWages: "💰 मजुरी दर",
+        chipVerify: "🛡️ बॅजेस",
+        speakLocale: "mr-IN",
+        botAnswers: {
+          findJobs: "आपल्या जिल्ह्यात व गावात सत्यापित नोकऱ्या उपलब्ध आहेत.",
+          wages: "सरासरी मजुरी: इलेक्ट्रिशियन ₹८५०, प्लंबर ₹७५०, ड्रायव्हर ₹१०००.",
+          verify: "आधार पडताळणी पूर्ण करून १००% ऑन-टाइम बॅज मिळवा.",
+          default: "मी आपल्या गावातील काम शोधण्यात मदत करतो."
+        }
+      },
+      kn: {
+        tagline: "ಭಾರತದ ವಿಶ್ವಾಸಾರ್ಹ ಕಾರ್ಮಿಕ ಜಾಲ",
+        heroTitle: "ದೃಢೀಕರಿಸಿದ ಕಾರ್ಮಿಕರು & ಗುಣಮಟ್ಟದ ಬ್ಯಾಡ್ಜ್‌ಗಳು",
+        heroSubtitle: "ನೇರ ಕರೆ, ಗ್ರಾಮ ಮಟ್ಟದ ನೇಮಕಾತಿ, ನೈಜ ವಿಮರ್ಶೆಗಳು.",
+        filterLocationTitle: "ರಾಜ್ಯ, ಜಿಲ್ಲೆ ಮತ್ತು ಗ್ರಾಮವಾರು ಹುಡುಕಿ",
+        stateLabel: "ರಾಜ್ಯ",
+        cityLabel: "ಜಿಲ್ಲೆ / ನಗರ",
+        villageLabel: "ಗ್ರಾಮ / ವಲಯ",
+        voiceBtn: "ಧ್ವನಿ",
+        joinBtn: "ನೋಂದಣಿ",
+        tabWorkers: "ಕಾರ್ಮಿಕರು",
+        tabJobs: "ಉದ್ಯೋಗಗಳು",
+        verifiedFilter: "ದೃಢೀಕರಿಸಿದವರು ಮಾತ್ರ",
+        callBtn: "ಕರೆ ಮಾಡಿ",
+        whatsappBtn: "ವಾಟ್ಸಾಪ್",
+        reviewsBtn: "ವಿಮರ್ಶೆಗಳು",
+        applyBtn: "ಅರ್ಜಿ ಸಲ್ಲಿಸಿ",
+        leaveReviewTitle: "ರೇಟಿಂಗ್ ನೀಡಿ",
+        postReviewBtn: "ಸಲ್ಲಿಸಿ",
+        regWorkerTab: "ಕಾರ್ಮಿಕರ ನೋಂದಣಿ",
+        regEmployerTab: "ಉದ್ಯೋಗದಾತರ ನೋಂದಣಿ",
+        aiTipTitle: "AI ಸಹಾಯಕ ಮಾರ್ಗದರ್ಶಿ",
+        aiTipDefault: "ಗ್ರಾಮದ ವಿವರ ನೀಡಿದರೆ 5 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಕೆಲಸ ಸುಲಭವಾಗಿ ಸಿಗುತ್ತದೆ.",
+        fullNameLabel: "ಪೂರ್ಣ ಹೆಸರು",
+        tradeLabel: "ವೃತ್ತಿ",
+        wageLabel: "ದಿನಗೂಲಿ (₹)",
+        docWorkerLabel: "ಆಧಾರ್ / ಪ್ರಮಾಣಪತ್ರ",
+        uploadHint: "ದಾಖಲೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+        companyLabel: "ಕಂಪನಿ ಹೆಸರು",
+        gstLabel: "ಜಿಎಸ್‌ಟಿ ಸಂಖ್ಯೆ",
+        phoneLabel: "ಫೋನ್ ಸಂಖ್ಯೆ",
+        submitRegBtn: "ಸಲ್ಲಿಸಿ",
+        aiOnline: "ಧ್ವನಿ ಮಾರ್ಗದರ್ಶಿ",
+        botHello: "ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ಕೆಲಸ ಹುಡುಕಲು ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?",
+        listenBtn: "ಕೇಳಿ",
+        chipFindJobs: "⚡ ಗ್ರಾಮದ ಕೆಲಸಗಳು",
+        chipWages: "💰 ಕೂಲಿ ದರ",
+        chipVerify: "🛡️ ಬ್ಯಾಡ್ಜ್‌ಗಳು",
+        speakLocale: "kn-IN",
+        botAnswers: {
+          findJobs: "ನಿಮ್ಮ ಜಿಲ್ಲೆ ಮತ್ತು ಗ್ರಾಮದಲ್ಲಿ ಉದ್ಯೋಗಾವಕಾಶಗಳಿವೆ.",
+          wages: "ದಿನಗೂಲಿ ದರ: ಎಲೆಕ್ಟ್ರಿಷಿಯನ್ ₹850-₹1000, ಪ್ಲಂಬರ್ ₹750-₹900.",
+          verify: "ಆಧಾರ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ ದೃಢೀಕೃತ ಬ್ಯಾಡ್ಜ್ ಪಡೆಯಿರಿ.",
+          default: "ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಗಮನಿಸಿದ್ದೇನೆ."
+        }
+      }
+    };
+
+    let currentLang = 'en';
+    let selectedEntityId = null;
+
+    // WORKERS WITH STATE, DISTRICT/CITY & VILLAGE
+    const workers = [
+      { 
+        id: 1, 
+        name: "Ramesh Kumar", 
+        trade: "Electrician", 
+        wage: 850, 
+        state: "Andhra Pradesh",
+        city: "West Godavari",
+        village: "Pentapadu",
+        verified: true, 
+        score: 98, 
+        phone: "9876543210", 
+        icon: "fa-bolt", 
+        exp: "5 yrs",
+        badges: [
+          { text: "Skill Master", color: "bg-purple-100 text-purple-800", icon: "fa-award" },
+          { text: "100% On-Time", color: "bg-blue-100 text-blue-800", icon: "fa-clock" },
+          { text: "Aadhaar Verified", color: "bg-green-100 text-green-800", icon: "fa-shield-check" }
+        ],
+        reviews: [
+          { author: "Sharma Constructions", rating: 5, comment: "Finished wiring in Pentapadu early. Very reliable!" }
+        ]
+      },
+      { 
+        id: 2, 
+        name: "Suresh Reddy", 
+        trade: "Plumber", 
+        wage: 750, 
+        state: "Andhra Pradesh",
+        city: "West Godavari",
+        village: "Tadepalligudem",
+        verified: true, 
+        score: 96, 
+        phone: "9876543211", 
+        icon: "fa-wrench", 
+        exp: "7 yrs",
+        badges: [
+          { text: "Zero Leakage Pro", color: "bg-cyan-100 text-cyan-800", icon: "fa-droplet-slash" },
+          { text: "Punctual", color: "bg-blue-100 text-blue-800", icon: "fa-business-time" },
+          { text: "Aadhaar Verified", color: "bg-green-100 text-green-800", icon: "fa-shield-check" }
+        ],
+        reviews: [
+          { author: "City Water Works", rating: 5, comment: "High precision pipe repairs in Tadepalligudem town." }
+        ]
+      },
+      { 
+        id: 3, 
+        name: "Anita Devi", 
+        trade: "Packaging", 
+        wage: 600, 
+        state: "Telangana",
+        city: "Rangareddy",
+        village: "Shamshabad",
+        verified: true, 
+        score: 94, 
+        phone: "9876543212", 
+        icon: "fa-box", 
+        exp: "3 yrs",
+        badges: [
+          { text: "High Speed Pro", color: "bg-amber-100 text-amber-800", icon: "fa-bolt-lightning" },
+          { text: "Aadhaar Verified", color: "bg-green-100 text-green-800", icon: "fa-shield-check" }
+        ],
+        reviews: [
+          { author: "Apex Logistics", rating: 5, comment: "Accurate warehouse packaging at Shamshabad airport hub." }
+        ]
+      },
+      { 
+        id: 4, 
+        name: "Manpreet Singh", 
+        trade: "Driver", 
+        wage: 950, 
+        state: "Maharashtra",
+        city: "Pune",
+        village: "Haveli",
+        verified: false, 
+        score: 85, 
+        phone: "9876543213", 
+        icon: "fa-truck", 
+        exp: "6 yrs",
+        badges: [
+          { text: "Heavy Vehicle Expert", color: "bg-orange-100 text-orange-800", icon: "fa-truck-moving" }
+        ],
+        reviews: [
+          { author: "Pune Roadlines", rating: 4, comment: "Good safe highway driver across Haveli route." }
+        ]
+      },
+      { 
+        id: 5, 
+        name: "Bikash Mondal", 
+        trade: "Mason", 
+        wage: 800, 
+        state: "West Bengal",
+        city: "Howrah",
+        village: "Domjur",
+        verified: true, 
+        score: 97, 
+        phone: "9876543214", 
+        icon: "fa-trowel-bricks", 
+        exp: "8 yrs",
+        badges: [
+          { text: "Finishing Specialist", color: "bg-indigo-100 text-indigo-800", icon: "fa-gem" },
+          { text: "100% On-Time", color: "bg-blue-100 text-blue-800", icon: "fa-clock" }
+        ],
+        reviews: [
+          { author: "Domjur Builders", rating: 5, comment: "Top quality brickwork completed ahead of schedule." }
+        ]
+      },
+      { 
+        id: 6, 
+        name: "Gopal Sharma", 
+        trade: "Carpenter", 
+        wage: 900, 
+        state: "Uttar Pradesh",
+        city: "Varanasi",
+        village: "Rohaniya",
+        verified: true, 
+        score: 95, 
+        phone: "9876543215", 
+        icon: "fa-hammer", 
+        exp: "4 yrs",
+        badges: [
+          { text: "Custom Furniture", color: "bg-rose-100 text-rose-800", icon: "fa-couch" },
+          { text: "Aadhaar Verified", color: "bg-green-100 text-green-800", icon: "fa-shield-check" }
+        ],
+        reviews: [
+          { author: "Varanasi Wood Crafts", rating: 5, comment: "Skilled woodwork in Rohaniya village." }
+        ]
+      }
+    ];
+
+    // JOBS WITH PRECISE STATE, CITY, VILLAGE
+    const jobs = [
+      { id: 101, title: "Urgent: 2 Industrial Electricians", company: "Godavari Infra", wage: 900, state: "Andhra Pradesh", city: "West Godavari", village: "Pentapadu", verified: true, type: "Daily Wage", rating: 4.8 },
+      { id: 102, title: "Pipe Fitting & Water Supply", company: "Tadepalligudem Municipal Project", wage: 800, state: "Andhra Pradesh", city: "West Godavari", village: "Tadepalligudem", verified: true, type: "Contract (15 Days)", rating: 4.9 },
+      { id: 103, title: "Commercial Cargo Driver", company: "Shamshabad Cargo Movers", wage: 1100, state: "Telangana", city: "Rangareddy", village: "Shamshabad", verified: true, type: "Monthly", rating: 4.7 }
+    ];
+
+    // CASCADING LOCATION DROPDOWNS
+    function onStateChange() {
+      const state = document.getElementById('stateFilter').value;
+      const citySelect = document.getElementById('cityFilter');
+      const villageSelect = document.getElementById('villageFilter');
+
+      citySelect.innerHTML = '<option value="All">All Cities / Districts</option>';
+      villageSelect.innerHTML = '<option value="All">All Villages / Localities</option>';
+
+      if (state !== 'All' && locationData[state]) {
+        Object.keys(locationData[state]).forEach(city => {
+          citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+        });
+      }
+      filterCards();
+    }
+
+    function onCityChange() {
+      const state = document.getElementById('stateFilter').value;
+      const city = document.getElementById('cityFilter').value;
+      const villageSelect = document.getElementById('villageFilter');
+
+      villageSelect.innerHTML = '<option value="All">All Villages / Localities</option>';
+
+      if (state !== 'All' && city !== 'All' && locationData[state][city]) {
+        locationData[state][city].forEach(vil => {
+          villageSelect.innerHTML += `<option value="${vil}">${vil}</option>`;
+        });
+      }
+      filterCards();
+    }
+
+    // RENDER WORKERS & JOBS WITH LOCATION BADGES
+    function renderApp() {
+      const wGrid = document.getElementById('workersGrid');
+      const jGrid = document.getElementById('jobsGrid');
+      const t = translations[currentLang];
+
+      wGrid.innerHTML = workers.map(w => `
+        <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md border border-slate-200 flex flex-col justify-between worker-card space-y-4" 
+             data-trade="${w.trade}" data-state="${w.state}" data-city="${w.city}" data-village="${w.village}" data-verified="${w.verified}">
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-blue-100 text-blue-800 rounded-2xl flex items-center justify-center text-xl">
+                  <i class="fa-solid ${w.icon}"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-base">${w.name}</h4>
+                  <p class="text-xs text-blue-700 font-semibold">${w.trade} • ${w.exp}</p>
+                </div>
+              </div>
+              <span class="bg-green-100 text-green-800 text-[11px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                <i class="fa-solid fa-star text-amber-500"></i> ${w.score}%
+              </span>
+            </div>
+
+            <!-- BADGES -->
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              ${w.badges.map(b => `
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 ${b.color}">
+                  <i class="fa-solid ${b.icon}"></i> ${b.text}
+                </span>
+              `).join('')}
+            </div>
+
+            <!-- LOCATION & WAGE -->
+            <div class="mt-3 space-y-1.5 bg-slate-50 p-2.5 rounded-xl text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 text-sm">₹${w.wage} <span class="text-[11px] text-slate-500 font-normal">/ day</span></span>
+                <span class="bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-semibold text-[11px]"><i class="fa-solid fa-map-pin text-red-500 mr-1"></i>${w.village}</span>
+              </div>
+              <p class="text-[11px] text-slate-500"><i class="fa-solid fa-city text-slate-400 mr-1"></i>${w.city}, ${w.state}</p>
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-slate-100">
+            <button onclick="openReviewModal(${w.id})" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-comments text-amber-500"></i> ${t.reviewsBtn} (${w.reviews.length})
+            </button>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="tel:${w.phone}" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2 rounded-xl text-center text-xs flex items-center justify-center gap-1.5 transition">
+                <i class="fa-solid fa-phone"></i> ${t.callBtn}
+              </a>
+              <a href="https://wa.me/91${w.phone}?text=Hello%20${w.name},%20we%20have%20a%20job%20requirement%20in%20${w.village}" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded-xl text-center text-xs flex items-center justify-center gap-1.5 transition">
+                <i class="fa-brands fa-whatsapp"></i> ${t.whatsappBtn}
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      jGrid.innerHTML = jobs.map(j => `
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 job-card"
+             data-title="${j.title}" data-state="${j.state}" data-city="${j.city}" data-village="${j.village}">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold px-2.5 py-1 bg-amber-100 text-amber-900 rounded-lg">${j.type}</span>
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1"><i class="fa-solid fa-star text-amber-400"></i> ${j.rating} / 5.0</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base">${j.title}</h4>
+            <p class="text-xs text-slate-500">${j.company}</p>
+            <p class="text-xs text-blue-800 font-medium"><i class="fa-solid fa-location-dot text-red-500 mr-1"></i>${j.village}, ${j.city}, ${j.state}</p>
+            <p class="text-lg font-extrabold text-blue-900 mt-2">₹${j.wage} <span class="text-xs text-slate-500 font-normal">/ day</span></p>
+          </div>
+          <button onclick="alert('Application Sent to Contractor in ${j.village}!')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-paper-plane"></i> ${t.applyBtn}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // MULTI-TIER FILTERING LOGIC
+    function filterCards() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const state = document.getElementById('stateFilter').value;
+      const city = document.getElementById('cityFilter').value;
+      const village = document.getElementById('villageFilter').value;
+      const verifiedOnly = document.getElementById('verifiedOnly').checked;
+
+      // Filter Workers
+      document.querySelectorAll('.worker-card').forEach(card => {
+        const trade = card.getAttribute('data-trade').toLowerCase();
+        const wState = card.getAttribute('data-state');
+        const wCity = card.getAttribute('data-city');
+        const wVillage = card.getAttribute('data-village');
+        const isVer = card.getAttribute('data-verified') === 'true';
+
+        const matchQuery = trade.includes(q) || wVillage.toLowerCase().includes(q) || wCity.toLowerCase().includes(q);
+        const matchState = (state === 'All' || wState === state);
+        const matchCity = (city === 'All' || wCity === city);
+        const matchVillage = (village === 'All' || wVillage === village);
+        const matchVer = !verifiedOnly || isVer;
+
+        card.style.display = (matchQuery && matchState && matchCity && matchVillage && matchVer) ? 'flex' : 'none';
+      });
+
+      // Filter Jobs
+      document.querySelectorAll('.job-card').forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        const jState = card.getAttribute('data-state');
+        const jCity = card.getAttribute('data-city');
+        const jVillage = card.getAttribute('data-village');
+
+        const matchQuery = title.includes(q) || jVillage.toLowerCase().includes(q);
+        const matchState = (state === 'All' || jState === state);
+        const matchCity = (city === 'All' || jCity === city);
+        const matchVillage = (village === 'All' || jVillage === village);
+
+        card.style.display = (matchQuery && matchState && matchCity && matchVillage) ? 'flex' : 'none';
+      });
+    }
+
+    // REVIEWS MODAL
+    function openReviewModal(workerId) {
+      selectedEntityId = workerId;
+      const worker = workers.find(w => w.id === workerId);
+      document.getElementById('modalReviewName').innerText = `${worker.name} - Reviews & Ratings`;
+      document.getElementById('modalReviewRole').innerText = `${worker.trade} • ${worker.village}, ${worker.city}`;
+      
+      const list = document.getElementById('modalReviewsList');
+      if (worker.reviews.length === 0) {
+        list.innerHTML = `<p class="text-xs text-slate-400 italic">No reviews yet. Be the first contractor to review!</p>`;
+      } else {
+        list.innerHTML = worker.reviews.map(r => `
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">${r.author}</span>
+              <span class="text-amber-500 text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+            </div>
+            <p class="text-xs text-slate-600">${r.comment}</p>
+          </div>
+        `).join('');
+      }
+      openModal('reviewModal');
+    }
+
+    let currentRatingVal = 5;
+    function setRating(val) {
+      currentRatingVal = val;
+      const stars = document.querySelectorAll('#starRatingInput i');
+      stars.forEach((s, idx) => {
+        if (idx < val) s.className = "fa-solid fa-star text-amber-400";
+        else s.className = "fa-regular fa-star text-slate-300";
+      });
+    }
+
+    function submitReview() {
+      const comment = document.getElementById('reviewComment').value.trim();
+      if (!comment) return alert("Please write a short comment!");
+      const worker = workers.find(w => w.id === selectedEntityId);
+      worker.reviews.unshift({ author: "Local Contractor", rating: currentRatingVal, comment: comment });
+      document.getElementById('reviewComment').value = "";
+      openReviewModal(selectedEntityId);
+      renderApp();
+    }
+
+    // MULTILINGUAL ENGINE
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const dict = translations[lang] || translations.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.innerText = dict[key];
+      });
+      renderApp();
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = translations[currentLang].speakLocale || 'en-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // VOICE SEARCH (Web Speech API)
+    function startVoiceSearch() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Voice recognition is best supported on Chrome.");
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = translations[currentLang].speakLocale || 'en-IN';
+      const btn = document.getElementById('voiceSearchBtn');
+      btn.classList.add('bg-red-600', 'animate-pulse');
+
+      recognition.onresult = function(event) {
+        document.getElementById('searchInput').value = event.results[0][0].transcript;
+        filterCards();
+        btn.classList.remove('bg-red-600', 'animate-pulse');
+      };
+      recognition.onerror = () => btn.classList.remove('bg-red-600', 'animate-pulse');
+      recognition.start();
+    }
+
+    // TAB TOGGLES & MODALS
+    function switchTab(tab) {
+      if (tab === 'workers') {
+        document.getElementById('workersView').classList.remove('hidden');
+        document.getElementById('jobsView').classList.add('hidden');
+        document.getElementById('tabWorkers').className = "px-5 py-2 rounded-lg font-bold text-sm bg-white text-blue-900 shadow";
+        document.getElementById('tabJobs').className = "px-5 py-2 rounded-lg font-bold text-sm text-slate-600 hover:text-blue-900";
+      } else {
+        document.getElementById('workersView').classList.add('hidden');
+        document.getElementById('jobsView').classList.remove('hidden');
+        document.getElementById('tabJobs').className = "px-5 py-2 rounded-lg font-bold text-sm bg-white text-blue-900 shadow";
+        document.getElementById('tabWorkers').className = "px-5 py-2 rounded-lg font-bold text-sm text-slate-600 hover:text-blue-900";
+      }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function switchRegRole(role) {
+      if (role === 'worker') {
+        document.getElementById('workerSpecificFields').classList.remove('hidden');
+        document.getElementById('employerSpecificFields').classList.add('hidden');
+        document.getElementById('regWorkerBtn').className = "font-bold pb-1 border-b-2 border-blue-600 text-blue-900";
+        document.getElementById('regEmployerBtn').className = "font-bold pb-1 text-slate-500 hover:text-blue-900";
+      } else {
+        document.getElementById('workerSpecificFields').classList.add('hidden');
+        document.getElementById('employerSpecificFields').classList.remove('hidden');
+        document.getElementById('regEmployerBtn').className = "font-bold pb-1 border-b-2 border-blue-600 text-blue-900";
+        document.getElementById('regWorkerBtn').className = "font-bold pb-1 text-slate-500 hover:text-blue-900";
+      }
+    }
+
+    function simulateVerification() { document.getElementById('verifyBadge').classList.remove('hidden'); }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const newName = document.getElementById('regName').value;
+      const newState = document.getElementById('regState').value;
+      const newCity = document.getElementById('regCity').value;
+      const newVillage = document.getElementById('regVillage').value;
+      const newTrade = document.getElementById('regTrade').value;
+      const newWage = document.getElementById('regWage').value || 700;
+      const newPhone = document.getElementById('regPhone').value;
+
+      workers.unshift({
+        id: Date.now(),
+        name: newName,
+        trade: newTrade,
+        wage: parseInt(newWage),
+        state: newState,
+        city: newCity,
+        village: newVillage,
+        verified: true,
+        score: 99,
+        phone: newPhone,
+        icon: "fa-user-check",
+        exp: "New Member",
+        badges: [
+          { text: "Aadhaar Verified", color: "bg-green-100 text-green-800", icon: "fa-shield-check" },
+          { text: "Verified Location", color: "bg-blue-100 text-blue-800", icon: "fa-map-pin" }
+        ],
+        reviews: []
+      });
+
+      alert(`Registration Successful! Profile active in ${newVillage}, ${newCity}.`);
+      closeModal('registerModal');
+      renderApp();
+    }
+
+    // CHATBOT
+    function toggleChat() { document.getElementById('chatBox').classList.toggle('hidden'); }
+
+    function askBot(topic) {
+      const answers = translations[currentLang].botAnswers || translations.en.botAnswers;
+      const reply = answers[topic] || answers.default;
+      appendMessage("User", translations[currentLang]['chip' + topic.charAt(0).toUpperCase() + topic.slice(1)] || topic);
+      setTimeout(() => appendMessage("Sahayak", reply), 350);
+    }
+
+    function sendUserMsg() {
+      const inp = document.getElementById('chatInput');
+      const val = inp.value.trim();
+      if (!val) return;
+      appendMessage("User", val);
+      inp.value = "";
+      const answers = translations[currentLang].botAnswers || translations.en.botAnswers;
+      setTimeout(() => appendMessage("Sahayak", answers.default), 400);
+    }
+
+    function appendMessage(sender, text) {
+      const container = document.getElementById('chatMessages');
+      const isBot = sender === "Sahayak";
+      const div = document.createElement('div');
+      div.className = isBot 
+        ? "bg-blue-100 text-blue-950 p-2.5 rounded-xl rounded-tl-none border border-blue-200 space-y-1"
+        : "bg-white text-slate-900 p-2.5 rounded-xl rounded-tr-none border border-slate-200 self-end ml-8";
+      
+      div.innerHTML = `
+        <p class="font-bold text-[10px] text-slate-500">${sender}</p>
+        <p>${text}</p>
+        ${isBot ? `<button onclick="speakText('${text.replace(/'/g, "\\'")}')" class="text-blue-700 font-bold text-[10px] flex items-center gap-1 hover:underline"><i class="fa-solid fa-volume-high"></i> ${translations[currentLang].listenBtn || 'Listen'}</button>` : ''}
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      if (isBot) speakText(text);
+    }
+
+    // INITIAL RENDER
+    renderApp();
+  </script>
+</body>
+</html>
