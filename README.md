@@ -11,7 +11,7 @@ A full-stack accessible recruitment platform designed to empower blue-collar pro
 ## 🌟 Key Features
 
 * **Hyper-Local Discovery:** 3-tier filtering (State ➔ District/City ➔ Village/Mandal) matching workers and contractors within their immediate vicinity.
-* **6+ Multilingual Localization:** Instant mother-tongue switching across 6 major Indian languages (English, Hindi, Telugu, Tamil, Bengali, and Marathi) so blue-collar workers can effortlessly navigate and interact with the platform.
+* **6+ Multilingual Localization:** Instant mother-tongue switching across 6 major Indian languages (English, Hindi, Telugu, Tamil, Bengali,  Marathi and Kannada) so blue-collar workers can effortlessly navigate and interact with the platform.
 * **"Sahayak" Multilingual Voice Search & AI Assistant:** 
   * Integrated voice search powered by browser-native speech recognition for low-literacy users.
   * An intelligent companion chatbot that delivers contextual help, hiring guidance, and suggestions directly in the selected regional language.
